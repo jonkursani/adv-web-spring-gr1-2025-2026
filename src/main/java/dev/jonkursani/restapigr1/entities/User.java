@@ -12,6 +12,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// flyway migration gjeneron skripten e SQL prej modelit (klases se javes => entiteti)
+// entity attributes from DB => prej kolones ne db e gjeneron propertine (field) ne klasen specifike
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +27,7 @@ public class User {
 
     @Column(name = "is_active")
     private Boolean isActive;
+
+    @Column(name = "created_by")
+    private Integer createdBy;
 }
