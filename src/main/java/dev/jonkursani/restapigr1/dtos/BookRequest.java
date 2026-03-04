@@ -1,18 +1,15 @@
-package dev.jonkursani.restapigr1.entities;
+package dev.jonkursani.restapigr1.dtos;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data // perdoret ne DTO => getter, setter, equals
 @NoArgsConstructor
 @AllArgsConstructor
-public class Book {
-    private Long id;
+public class BookRequest {
     private String title;
     private String author;
     private String category;
-    private Integer rating;
+    private int rating;
 }
