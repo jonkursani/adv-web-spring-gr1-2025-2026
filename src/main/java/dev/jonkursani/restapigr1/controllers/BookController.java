@@ -2,11 +2,19 @@ package dev.jonkursani.restapigr1.controllers;
 
 import dev.jonkursani.restapigr1.dtos.BookRequest;
 import dev.jonkursani.restapigr1.entities.Book;
+import dev.jonkursani.restapigr1.exceptions.book.BookNotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Tag(name = "Book Endpoints", description = "Endpoints related to books")
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
@@ -27,8 +35,13 @@ public class BookController {
     // R => Read
     // @QueryParameters
     // /api/books
+    @Operation(summary = "Get all books", description = "Endpoint to get all books from list")
+    @ResponseStatus(HttpStatus.OK) // 200
     @GetMapping // ?category=science
-    public List<Book> getBooks(@RequestParam(required = false) String category) {
+    public List<Book> getBooks(
+            @Parameter(description = "Optional category of the book you want to retrieve")
+            @RequestParam(required = false) String category
+    ) {
         if (category == null) {
             return books;
         }
@@ -44,8 +57,13 @@ public class BookController {
 //        return books.get(id);
 //    }
 
+    @Operation(summary = "Get by id", description = "Endpoint to get book by id from list")
+    @ResponseStatus(HttpStatus.OK) // 200
     @GetMapping("/{id}")
-    public Book getBookById(@PathVariable long id) {
+    public Book getBookById(
+            @Parameter(description = "Id of the book you want to retrieve")
+            @PathVariable @Min(value = 1) long id
+    ) {
 //        for (Book book : books) {
 //            if (book.getTitle().equalsIgnoreCase(title)) {
 //                return book;
@@ -57,11 +75,14 @@ public class BookController {
         return books.stream()
                 .filter(book -> book.getId() == id)
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new BookNotFoundException(id));
+//                .orElse(null);
     }
 
+    @Operation(summary = "Create book", description = "Endpoint to create new book")
+    @ResponseStatus(HttpStatus.CREATED) // 201
     @PostMapping
-    public void createBook(@RequestBody BookRequest bookRequest) {
+    public void createBook(@Valid @RequestBody BookRequest bookRequest) {
 //        for (Book book : books) {
 //            if (book.getTitle().equalsIgnoreCase(newBook.getTitle())) {
 //                return;
@@ -97,8 +118,14 @@ public class BookController {
         books.add(book);
     }
 
+    @Operation(summary = "Update book", description = "Endpoint to update existing book by id")
+    @ResponseStatus(HttpStatus.NO_CONTENT) // 204
     @PutMapping("/{id}")
-    public void updateBook(@PathVariable long id, @RequestBody BookRequest bookRequest) {
+    public void updateBook(
+            @Parameter(description = "Id of the book you want to update")
+            @PathVariable @Min(value = 1) long id,
+            @Valid @RequestBody BookRequest bookRequest
+    ) {
         for (int i = 0; i < books.size(); i++) {
             if (books.get(i).getId() == id) {
                 Book updatedBook = convetToBook(id, bookRequest);
@@ -108,8 +135,13 @@ public class BookController {
         }
     }
 
+    @Operation(summary = "Delete book", description = "Endpoint to delete existing book by id")
+    @ResponseStatus(HttpStatus.NO_CONTENT) // 204
     @DeleteMapping("/{id}")
-    public void deleteBook(@PathVariable long id) {
+    public void deleteBook(
+            @Parameter(description = "Id of the book you want to delete")
+            @PathVariable @Min(value = 1) long id
+    ) {
         books.removeIf(book -> book.getId() == id);
     }
 
