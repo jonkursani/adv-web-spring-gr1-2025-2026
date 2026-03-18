@@ -19,6 +19,7 @@ public interface DepartmentMapper {
     // dto -> entity
     Department toEntity(DepartmentRequest dto);
     void updateEntityFromDto(DepartmentRequest dto, @MappingTarget Department entity);
+    Department toEntity(DepartmentResponse dto);
 
     @Mapping(source = "employees", target = "employeeCount", qualifiedByName = "countPunetoret")
     DepartmentWithEmployeeCount toDepartmentWithEmployeeCount(Department entity);
