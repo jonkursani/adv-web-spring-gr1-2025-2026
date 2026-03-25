@@ -10,4 +10,5 @@ public interface EmployeeService {
     EmployeeResponse findById(int id);
     EmployeeResponse create(EmployeeRequest employeeRequest);
     EmployeeResponse update(int id, EmployeeRequest employeeRequest);
+    void delete(int id);
 }

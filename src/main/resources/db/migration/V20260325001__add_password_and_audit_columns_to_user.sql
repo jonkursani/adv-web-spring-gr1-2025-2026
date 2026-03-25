@@ -1,0 +1,11 @@
+ALTER TABLE users
+    ADD created_at TIMESTAMP WITHOUT TIME ZONE;
+
+ALTER TABLE users
+    ADD password VARCHAR(255);
+
+ALTER TABLE users
+    ADD updated_at TIMESTAMP WITHOUT TIME ZONE;
+
+ALTER TABLE users
+    ALTER COLUMN password SET NOT NULL;

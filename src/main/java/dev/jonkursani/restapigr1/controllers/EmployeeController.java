@@ -70,4 +70,15 @@ public class EmployeeController {
         var response = employeeService.update(id, employeeRequest);
         return ResponseEntity.ok(response);
     }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Employee deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Employee not found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable int id) {
+        employeeService.delete(id);
+        return ResponseEntity.noContent().build(); // 204
+    }
 }

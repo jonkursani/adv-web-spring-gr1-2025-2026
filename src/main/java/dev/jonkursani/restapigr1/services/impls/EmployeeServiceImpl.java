@@ -103,4 +103,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return employeeMapper.toDto(updatedEmployee);
     }
+
+    @Override
+    public void delete(int id) {
+        findById(id);
+        employeeRepository.deleteById(id);
+    }
 }
