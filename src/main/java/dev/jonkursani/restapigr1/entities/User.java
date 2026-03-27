@@ -1,10 +1,7 @@
 package dev.jonkursani.restapigr1.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 // flyway migration gjeneron skripten e SQL prej modelit (klases se javes => entiteti)
 // entity attributes from DB => prej kolones ne db e gjeneron propertine (field) ne klasen specifike
 public class User {
