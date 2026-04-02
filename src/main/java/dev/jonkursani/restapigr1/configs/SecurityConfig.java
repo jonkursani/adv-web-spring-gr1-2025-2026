@@ -1,5 +1,6 @@
 package dev.jonkursani.restapigr1.configs;
 
+import dev.jonkursani.restapigr1.entities.Role;
 import dev.jonkursani.restapigr1.entities.User;
 import dev.jonkursani.restapigr1.repositories.UserRepository;
 import dev.jonkursani.restapigr1.security.AppUserDetailsService;
@@ -52,6 +53,19 @@ public class SecurityConfig {
                         "/docs",
                         "/api/auth/**"
                 ).permitAll()
+
+                // hasRole() per 1 rol, hasAnyRole() per ma shume se 1 rol
+                // hasAuthority() per 1 permission, hasAnyAuthority() per ma shume se 1 permission
+//                .requestMatchers("/api/management/**").hasAnyRole(Role.MANAGER.name(), Role.ADMIN.name())
+//                .requestMatchers(HttpMethod.GET, "/api/management/**")
+//                    .hasAnyAuthority(Permission.MANAGER_READ.getPermission(), Permission.ADMIN_READ.getPermission())
+//                .requestMatchers(HttpMethod.POST, "/api/management/**")
+//                    .hasAnyAuthority(Permission.MANAGER_WRITE.getPermission(), Permission.ADMIN_WRITE.getPermission())
+//                .requestMatchers(HttpMethod.PUT, "/api/management/**")
+//                    .hasAnyAuthority(Permission.MANAGER_WRITE.getPermission(), Permission.ADMIN_WRITE.getPermission())
+//                .requestMatchers(HttpMethod.DELETE, "/api/management/**")
+//                    .hasAnyAuthority(Permission.MANAGER_WRITE.getPermission(), Permission.ADMIN_WRITE.getPermission())
+
                 .anyRequest().authenticated()
         );
 
@@ -81,6 +95,7 @@ public class SecurityConfig {
                             .email(email)
                             .password(passwordEncoder().encode("Test#123"))
                             .isActive(true)
+                            .role(Role.ADMIN)
                             .createdBy(1)
                             .build();
 

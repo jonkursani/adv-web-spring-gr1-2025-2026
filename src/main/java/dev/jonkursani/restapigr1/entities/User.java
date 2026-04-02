@@ -33,6 +33,10 @@ public class User {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @Column(name = "role", length = 50)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @Column(name = "created_by")
     private Integer createdBy;
 
